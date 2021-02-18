@@ -17,69 +17,28 @@ public class Profile {
         return ("Employee name: " + name + "department" + department + "date hired" + dateHired);
     }
 
-    /*
+
     @Override
     public boolean equals(Object obj){
+        if(obj instanceof Profile){
+            Profile profile = (Profile) obj;
+            return this.name.equals(profile.name);
+        }
+        return false;
     }
-*/
 
-    public class Employee extends Profile {
-        //super(name,department,dateHired);
 
+    public String getName(){
+        return this.name;
+    }
+    public String getDepartment(){
+        return this.department;
     }
 
-    public class Fulltime extends Employee{
-       public String manager;
-       public  String deptHead;
-       public  String director;
-
-        public Fulltime(String manager, String deptHead, String director){
-            this.manager = manager;
-            this.deptHead = deptHead;
-            this.director = director;
-        }
-        @Override
-        public String toString() {
-            return ("Manager: " + manager + "department head" + deptHead + "director" + director);
-        }
-        /*
-        @Override
-        public boolean equals(Object obj){
-        }*/
-
-
+    public Date getDateHired(){
+        return this.dateHired;
     }
-    public class Parttime extends Employee{
-        public int hourlyPay;
-        public Parttime(int hourlyPay, String manager, String deptHead, String director){
-            //super(manager,deptHead,director);
-            this.hourlyPay = hourlyPay;
-        }
-        @Override
-        public String toString() {
-            return ("Hourly pay : " + hourlyPay);
-        }
-        /*
-        @Override
-        public boolean equals(Object obj){
-        }*/
 
-    }
-    public class Management extends Fulltime{
-
-        public Management(String manager, String deptHead, String director) {
-            super(manager, deptHead, director);
-        }
-        @Override
-        public String toString() {
-            return ("Manager: " + manager + "department head" + deptHead + "director" + director);
-        }
-
-        /*
-        @Override
-        public boolean equals(Object obj){
-        }*/
-    }
 
 
 
