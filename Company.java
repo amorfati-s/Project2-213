@@ -28,6 +28,8 @@ public class Company {
 
     public boolean add(Employee employee) {
 
+
+
         return false;
     } //check the profile before adding
 
@@ -45,6 +47,10 @@ public class Company {
     } //set working hours for a part time
 
     public void processPayments() {
+
+        //not sure how to bring calculatePayment() into here but that's what we need to do I think.
+
+
     } //process payments for all employees
 
     public void print() {
