@@ -9,94 +9,135 @@ import java.util.Scanner;
  **/
 
 public class PayrollProcessing {
-    public static String serialNumber;
+    Scanner in = new Scanner(System.in);
+    Company companyDB;
+    public static String name;
+    public static String deptName;
+    public static String dateHiredStr;
+    public static double annualSalary;
+    private final int MANAGER_ROLE = 1;
+    private final int DEPT_HEAD_ROLE = 2;
+    private final int DIRECTOR_ROLE = 3;
+    private final String CS_DEPT = "CS";
+    private final String ECE_DEPT = "ECE";
+    private final String IT_DEPT = "IT";
+    private final int DEF_VAL = 0;
+    Employee employee = new Employee();
+    Date date = new Date();
 
     /**
      * This method reads from the command line, parses the input and calls the respective functions.
      */
     public void run() {
-        //Scanning the input
-        Scanner in = new Scanner(System.in);
-        Library bag = new Library();
-        Date date = new Date();
-
-        System.out.println("Library Kiosk running.");
+        System.out.println("Payroll Processing starts.");
         //Declare/Initialize variables
         String command = "";
-        int i = 0;
-        String s = null;
+        String line = null;
         boolean hasNextLine = in.hasNext();
 
         //Using Scanner for Getting input from user
         while (hasNextLine) {
-            s = in.nextLine(); //nextLine reads
-            String[] arrOfStr = s.split(","); //Tokenizing the array from the Scanner
+            line = in.nextLine(); //nextLine reads
+            String[] arrOfStr = line.split(" "); //Tokenizing the array from the Scanner
             command = arrOfStr[0];
 
             switch (command) {
-                case "A":  //handling command add
-                    String bookName = arrOfStr[1];
-                    String datePubStr = arrOfStr[2];
-                    Book addBook = new Book(bookName, datePubStr);
-                    if (addBook.getDate().isValid()) {
-                        bag.add(addBook);
-                        System.out.println(addBook.getName() + " added to the Library.");
+                case "AF":  //handling command add
+                    name = arrOfStr[1];
+                    deptName = arrOfStr[2];
+                    dateHiredStr = arrOfStr[3];
+                    annualSalary = Double.parseDouble(arrOfStr[4]);
+                    Profile AFProfile = new Profile(name, deptName, dateHiredStr);
+                    Fulltime fulltimeEmp = new Fulltime(AFProfile, annualSalary);
+                    if (AFProfile.getDateHired().isValid()) {
+                        companyDB.add(fulltimeEmp);
+                        System.out.println("Employee added.");
                     } else {
-                        System.out.println("Invalid Date!");
+                        System.out.println(fulltimeEmp.getProfile().getDateHired() + " is not a valid date!");
+                    }
+                    break;
+                case "AP":  //handling command add
+                    name = arrOfStr[1];
+                    deptName = arrOfStr[2];
+                    dateHiredStr = arrOfStr[3];
+                    Double hourlyPay = Double.parseDouble(arrOfStr[4]);
+                    Profile APProfile = new Profile(name, deptName, dateHiredStr);
+                    Parttime parttimeEmp = new Parttime(APProfile, hourlyPay);
+                    if (APProfile.getDateHired().isValid()) {
+                        companyDB.add(parttimeEmp);
+                        System.out.println("Employee added.");
+                    } else {
+                        System.out.println(parttimeEmp.getProfile().getDateHired() + " is not a valid date!");
                     }
                     break;
 
-                case "R":  //handling command remove
-                    serialNumber = arrOfStr[1];
-                    Book removeBook = new Book(serialNumber);
-                    if (bag.remove(removeBook)) {
-                        System.out.println("Book#" + serialNumber + " removed.");
+                case "AM":  //handling command add
+                    name = arrOfStr[1];
+                    deptName = arrOfStr[2];
+                    dateHiredStr = arrOfStr[3];
+                    annualSalary = Double.parseDouble(arrOfStr[4]);
+                    int role = Integer.parseInt(arrOfStr[5]);
+                    Profile AMProfile = new Profile(name, deptName, dateHiredStr);
+                    Management mngmntEmp = new Management(AMProfile, annualSalary, role);
+                    if (AMProfile.getDateHired().isValid()) {
+                        companyDB.add(mngmntEmp);
+                        System.out.println("Employee added.");
                     } else {
-                        System.out.println("Unable to remove, the library does not have this book.");
+                        System.out.println(mngmntEmp.getProfile().getDateHired() + " is not a valid date!");
+                    }
+                    break;
+
+                case "R":  //handling command remove employee
+                    name = arrOfStr[1];
+                    deptName = arrOfStr[2];
+                    dateHiredStr = arrOfStr[3];
+                    Profile RProfile = new Profile(name, deptName, dateHiredStr);
+                    Employee removeEmp = new Employee(RProfile);
+                    if (companyDB.remove(removeEmp)) {
+                        System.out.println("Employee removed.");
+                    } else {
+                        System.out.println("Employee does not exist.");
                     }
                     break;
 
 
-                case "O": //handling command checkout
-                    serialNumber = arrOfStr[1];
-                    Book checkOutBook = new Book(serialNumber);
-                    if (bag.checkOut(checkOutBook)) {
-                        System.out.println("Book#" + serialNumber + " is not available.");
-                    } else {
-                        checkOutBook.setCheckedOut(true);
-                        System.out.println("You've checked out Book#" + serialNumber + ". Enjoy!.");
-                    }
+                case "C": //handling commmand calculate
+                    companyDB.processPayments();
                     break;
 
-                case "I": //handling return command
-                    serialNumber = arrOfStr[1];
-                    Book returnBook = new Book(serialNumber);
-                    if (bag.returns(returnBook)) {
-                        System.out.println("Unable to return Book#" + serialNumber + ".");
-                    } else {
-                        System.out.println("Book#" + serialNumber + " return has completed. Thanks!");
+                case "S": //handling setHours command for part time employee
+                    name = arrOfStr[1];
+                    deptName = arrOfStr[2];
+                    dateHiredStr = arrOfStr[3];
+                    double hours = Double.parseDouble(arrOfStr[4]);
+                    Profile setHrsProfile = new Profile(name, deptName, dateHiredStr);
+                    Parttime setHrsPT = new Parttime(setHrsProfile, hours); //i want to pass in the double for hours and manipulate this into the setHours method
+
+                    if (companyDB.setHours(setHrsPT)) {//so this part time employee has to be found first in the method, and then we have to
+                        setHrsPT.setHours(hours);
                     }
+
                     break;
 
                 case "PA":  //printing the list of books
-                    bag.print();
+                    companyDB.print();
                     break;
 
-                case "PD": //printing the list of books by date
-                    bag.printByDate();
+                case "PH": //printing the list of books by date
+                    companyDB.printByDate();
                     break;
 
-                case "PN": //printing the list of books by serial number
-                    bag.printByNumber();
+                case "PD": //printing the list of books by serial number
+                    companyDB.printByDepartment();
                     break;
 
                 case "Q": //exiting a kiosk session
-                    System.out.println("Kiosk session ended");
+                    System.out.println("Payroll Processing completed.");
                     System.exit(0);
                     break;
 
                 default:
-                    System.err.println("Invalid command!");
+                    System.out.println("Command " + "'" + line + "'" + "is not supported!");
                     break;
             }
         }
