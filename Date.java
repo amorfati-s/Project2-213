@@ -2,8 +2,6 @@
 import java.util.Calendar;
 
 public class Date implements Comparable<Date> {
-    @Override
-    public int compareTo(Date date) { return 0; } //return 1, 0, or -1
 
     private int year;
     private int month;
@@ -49,6 +47,24 @@ public class Date implements Comparable<Date> {
         year = today.get(Calendar.YEAR);
 
     }
+
+    @Override
+    public int compareTo(Date date) {
+        if (year == date.year) {
+            if(month == date.month){
+                if(day == date.day){
+                    return 0;
+                }
+            }else if(day > date.day){
+                return 1;
+            }else if (day < date.day){
+                return -1;
+            }
+
+        }
+        return -1;
+    }
+
 
     /**
      * getter method returns the day instance variable
