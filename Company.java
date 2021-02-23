@@ -138,23 +138,20 @@ public class Company {
     } //print earning statements for all employees
 
 
-    public void sortDept(Employee[] empListCopy) {
+    private void selectionSort(String[] array) {
+        for ( int j=0; j < array.length-1; j++ )
+        {
+            // Find min: the index of the string reference that should go into cell j.
+            // Look through the unsorted strings (those at j or higher) for the one that is first in lexicographic order
+            int min = j;
+            for ( int k=j+1; k < array.length; k++ )
+                if ( array[k].compareTo( array[min] ) < 0 ) min = k;
 
-        for (int i = 0; i < numEmployee - 1; i++) {
-            int index = i;
-            for (int j = i + 1; j < numEmployee; j++) {
-                if (empListCopy[i + 1] == null) {
-                    break;
-                }
-                if (empListCopy[j].getProfile().getDepartment() == "CS") {
-                    index = j;
-                }
-            }
-            Employee orderedEmp = empListCopy[index];
-            empListCopy[index] = empListCopy[i];
-            empListCopy[i] = orderedEmp;
+            // Swap the reference at j with the reference at min
+            String temp = array[j];
+            array[j] = array[min];
+            array[min] = temp;
         }
-
 
     }
 
@@ -168,7 +165,8 @@ public class Company {
 
          */
 
-        Employee[] empListCopy = new Employee[numEmployee];
+        String[] arrayOfDept = new String[numEmployee];
+        int j = 0;
 
         if (numEmployee == 0) {
             System.out.println("Employee database is empty.");
@@ -177,10 +175,18 @@ public class Company {
             System.out.println("--Printing earning statements by department--");
 
             for (int i = 0; i < numEmployee; i++) {
-                empListCopy[i] = emplist[i];
+                arrayOfDept[i] = emplist[i].getProfile().getDepartment();
             }
 
-            sortDept(empListCopy);
+            selectionSort(arrayOfDept);
+
+            for (String element : arrayOfDept) {
+                for (int i = 0; i < arrayOfDept.length; i++) {
+                if (element == String.valueOf(emplist[i].getProfile().getDepartment())) {
+                    System.out.println(emplist[i]);
+                }
+                }
+            }
 
             /*
             for (int i = 0; i < numEmployee; i++) {
@@ -204,19 +210,8 @@ public class Company {
                     }
                 }
 
-                 */
+             */
 
-            }
-
-            for (int j = 0; j < numEmployee; j++) {
-
-                System.out.println(empListCopy[j]);
-
-                /*System.out.println(CSDept[j]);
-                System.out.println(ECEDept[j]);
-                System.out.println(ITDept[j]);
-
-                 */
             }
             System.out.println("--End of list.");
 
