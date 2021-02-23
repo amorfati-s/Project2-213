@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.Scanner;
 
 //I will edit this tomorrow
@@ -10,7 +11,7 @@ import java.util.Scanner;
 
 public class PayrollProcessing {
     Scanner in = new Scanner(System.in);
-    Company companyDB;
+    Company companyDB = new Company();
     public static String name;
     public static String deptName;
     public static String dateHiredStr;
@@ -109,12 +110,21 @@ public class PayrollProcessing {
                     name = arrOfStr[1];
                     deptName = arrOfStr[2];
                     dateHiredStr = arrOfStr[3];
-                    double hours = Double.parseDouble(arrOfStr[4]);
+                    float hours = Float.parseFloat(arrOfStr[4]);
                     Profile setHrsProfile = new Profile(name, deptName, dateHiredStr);
-                    Parttime setHrsPT = new Parttime(setHrsProfile, hours); //i want to pass in the double for hours and manipulate this into the setHours method
+                    Parttime setHrsEmp = new Parttime(setHrsProfile, hours); //i want to pass in the double for hours and manipulate this into the setHours method
 
-                    if (companyDB.setHours(setHrsPT)) {//so this part time employee has to be found first in the method, and then we have to
-                        setHrsPT.setHours(hours);
+                    if (hours < 100) {
+                        System.out.println("Working hours cannot be negative.");
+                    }
+                    else if (hours > 100) {
+                        System.out.println("Invalid hours: over 100.");
+                    }
+                    else {
+                        if (companyDB.setHours(setHrsEmp)) {//so this part time employee has to be found first in the method, and then we have to
+                            setHrsEmp.setHours(hours);
+                            System.out.println("Working hours set.");
+                        }
                     }
 
                     break;
