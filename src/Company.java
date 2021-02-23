@@ -6,13 +6,13 @@ public class Company {
 
     private int find(Employee employee) {
         int flag = 0;
-        for(int i =0; i<numEmployee; i++){
-            if(emplist[i].getProfile().getName().equals(employee.getProfile().getName())){
+        for (int i = 0; i < numEmployee; i++) {
+            if (emplist[i].getProfile().getName().equals(employee.getProfile().getName())) {
                 flag = 1;
                 return flag;
             }
         }
-        flag =0;
+        flag = 0;
         return flag;
     }
 
@@ -20,7 +20,7 @@ public class Company {
         int oldLength = emplist.length;
         int newLength = oldLength + CAPACITY;
         Employee[] newEmployee = new Employee[newLength];
-        for(int i =0; i<oldLength;i++) {
+        for (int i = 0; i < oldLength; i++) {
             newEmployee[i] = emplist[i];
         }
         emplist = newEmployee;
@@ -29,21 +29,25 @@ public class Company {
     public boolean add(Employee employee) {
 
         return false;
-    } //check the profile before adding
+    } // check the profile before adding
 
     public boolean remove(Employee employee) {
         return false;
-    } //maintain the original sequence
+    } // maintain the original sequence
 
     public boolean setHours(Employee employee) {
         return false;
-    } //set working hours for a part time
-     public void processPayments() { } //process payments for all employees
+    } // set working hours for a part time
+
+    public void processPayments() {
+    } // process payments for all employees
 
     public void print() {
-    } //print earning statements for all employees
+    } // print earning statements for all employees
 
     public void printByDepartment() {
-    } //print earning statements by department
-     public void printByDate() { } //print earning statements by date hired
+    } // print earning statements by department
+
+    public void printByDate() {
+    } // print earning statements by date hired
 }
