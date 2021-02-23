@@ -223,8 +223,43 @@ public class Company {
         }
     //print earning statements by department
 
+    private void sortByDate(Employee[] sortDate) {
+
+        for (int i = 0; i < numEmployee - 1; i++) {
+            int index = i;
+            for (int j = i + 1; j < numEmployee; j++) {
+                if (sortDate[i + 1] == null) {
+                    break;
+                }
+                if (sortDate[j].getProfile().getDateHired().compareTo((sortDate[index].getProfile().getDateHired())) == -1) {
+                    index = j;
+                }
+            }
+            Employee olderEmp = sortDate[index];
+            sortDate[index] = sortDate[i];
+            sortDate[i] = olderEmp;
+        }
+
+    }
+
         public void printByDate () {
 
+            Employee[] sortDate = new Employee[emplist.length];
+
+            if (numEmployee == 0) {
+                System.out.println("Library catalog is empty!");
+            }
+            if (numEmployee > 0) {
+                System.out.println("**List of books by the date published.");
+                for (int i = 0; i < numEmployee; i++) {
+                    sortDate[i] = emplist[i];
+                }
+                sortByDate(sortDate);
+                for (int i = 0; i < numEmployee; i++) {
+                    System.out.println(sortDate[i]);
+                }
+                System.out.println("**End of list.");
+            }
 
         } //print earning statements by date hired
     }
