@@ -6,6 +6,7 @@ public class Management extends Fulltime {
     private static final int MANAGER = 1;
     private static final int DEPT_HEAD = 2;
     private static final int DIRECTOR = 3;
+    private String roleStr;
     private double additionalComp;
 
     public Management(Profile profile, double annualSalary, int role) { //might have to change Date to a string ?? idk if it'll work
@@ -13,10 +14,13 @@ public class Management extends Fulltime {
         this.role = role;
         if (role == 1) {
             additionalComp = 192.31;
+            roleStr = "Manager";
         } else if (role == 2) {
             additionalComp = 365.38;
+            roleStr = "Department Head";
         } else if (role == 3) {
             additionalComp = 461.54;
+            roleStr = "Director";
         }
     }
 
@@ -27,7 +31,7 @@ public class Management extends Fulltime {
 
     @Override
     public String toString() {
-        return super.toString() + "::Manager Compensation $" + additionalComp;
+        return super.toString() + "::" + roleStr + " Compensation $" + additionalComp;
     }
 
     @Override
@@ -40,14 +44,4 @@ public class Management extends Fulltime {
         return false;
     }
 }
-    /*
-        public Management(String manager, String deptHead, String director) {
-        super(manager, deptHead, director);
-    }
-
-    @Override
-    public String toString() {
-        return ("Manager: " + manager + "department head" + deptHead + "director" + director);
-    }
-
-     */
+  
