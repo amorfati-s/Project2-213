@@ -2,7 +2,7 @@ import java.text.DecimalFormat;
 
 public class Parttime extends Employee {
 
-    protected double hoursWorked;
+    protected float hoursWorked;
     protected double hourlyPay;
     protected double payment;
 
@@ -12,7 +12,13 @@ public class Parttime extends Employee {
         payment = 0;
     }
 
-    public void setHours(double hoursWorked) {
+    public Parttime(Profile profile, float hoursWorked) {
+        super(profile);
+        this.hoursWorked = hoursWorked;
+        //payment = 0;
+    }
+
+    public void setHours(float hoursWorked) {
         this.hoursWorked = hoursWorked;
     }
 
@@ -46,7 +52,7 @@ public class Parttime extends Employee {
     public String toString() {
         String pattern = "###,000.00";
         DecimalFormat df = new DecimalFormat(pattern);
-        return super.toString() + "::Payment" + df.format(payment) + "::PART TIME:: Hourly Rate $" + df.format(hourlyPay) + "::Hours worked this period: " + hoursWorked;
+        return super.toString() + "::Payment " + df.format(payment) + "::PART TIME:: Hourly Rate $" + df.format(hourlyPay) + "::Hours worked this period: " + hoursWorked;
     }
 
 }
