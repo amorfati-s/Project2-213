@@ -146,6 +146,7 @@ public class PayrollProcessing {
                     Profile setHrsProfile = new Profile(name, deptName, dateHiredStr);
                     Parttime setHrsEmp = new Parttime(setHrsProfile);
                     numEmployee = companyDB.getNumEmployee();
+                    setHrsEmp.setHours(hours); //temporarily setting the hours to this profile in order to see if it exists in our database 
 
                     if (numEmployee == 0) {
                         System.out.println("Employee database is empty.");
@@ -155,7 +156,6 @@ public class PayrollProcessing {
                         System.out.println("Invalid hours: over 100.");
                     } else {
                         if (companyDB.setHours(setHrsEmp)) {
-                            setHrsEmp.setHours(hours);
                             System.out.println("Working hours set.");
                         }
                     }
