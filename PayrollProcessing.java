@@ -23,7 +23,7 @@ public class PayrollProcessing {
     private final String ECE_DEPT = "ECE";
     private final String IT_DEPT = "IT";
     private final int DEF_VAL = 0;
-    private int numEmployee = companyDB.getNumEmployee();
+    private int numEmployee;
     Employee employee = new Employee();
     Date date = new Date();
 
@@ -51,9 +51,16 @@ public class PayrollProcessing {
                     annualSalary = Double.parseDouble(arrOfStr[4]);
                     Profile AFProfile = new Profile(name, deptName, dateHiredStr);
                     Fulltime fulltimeEmp = new Fulltime(AFProfile, annualSalary);
-                    if (AFProfile.getDateHired().isValid()) {
-                        companyDB.add(fulltimeEmp);
-                        System.out.println("Employee added.");
+
+                    if (annualSalary < 0) {
+                        System.out.println("Salary cannot be negative.");
+                    } else if (AFProfile.getDateHired().isValid()) {
+                        if (companyDB.add(fulltimeEmp)) {
+                            System.out.println("Employee added.");
+                        } else {
+                            System.out.println("Employee is already in the list.");
+                        }
+
                     } else {
                         System.out.println(fulltimeEmp.getProfile().getDateHired() + " is not a valid date!");
                     }
@@ -65,11 +72,19 @@ public class PayrollProcessing {
                     Double hourlyPay = Double.parseDouble(arrOfStr[4]);
                     Profile APProfile = new Profile(name, deptName, dateHiredStr);
                     Parttime parttimeEmp = new Parttime(APProfile, hourlyPay);
-                    if (APProfile.getDateHired().isValid()) {
-                        companyDB.add(parttimeEmp);
-                        System.out.println("Employee added.");
+
+                    if (annualSalary < 0) {
+                        System.out.println("Salary cannot be negative.");
+
+                    } else if (APProfile.getDateHired().isValid()) {
+                        if (companyDB.add(parttimeEmp)) {
+                            System.out.println("Employee added.");
+                        } else {
+                            System.out.println("Employee is already in the list.");
+                        }
+
                     } else {
-                        System.out.println(parttimeEmp.getProfile().getDateHired() + " is not a valid date!");
+                        System.out.println(String.valueOf(parttimeEmp.getProfile().getDateHired()) + " is not a valid date!");
                     }
                     break;
 
@@ -81,12 +96,20 @@ public class PayrollProcessing {
                     int role = Integer.parseInt(arrOfStr[5]);
                     Profile AMProfile = new Profile(name, deptName, dateHiredStr);
                     Management mngmntEmp = new Management(AMProfile, annualSalary, role);
-                    if (AMProfile.getDateHired().isValid()) {
-                        companyDB.add(mngmntEmp);
-                        System.out.println("Employee added.");
-                    }
-                    else {
-                        System.out.println(mngmntEmp.getProfile().getDateHired() + " is not a valid date!");
+
+                    if (role > 3) {
+                        System.out.println("Invalid management code.");
+                    } else if (annualSalary < 0) {
+                        System.out.println("Salary cannot be negative.");
+
+                    } else if (AMProfile.getDateHired().isValid()) {
+                        if (companyDB.add(mngmntEmp)) {
+                            System.out.println("Employee added.");
+                        } else {
+                            System.out.println("Employee is already in the list.");
+                        }
+                    } else {
+                        System.out.println(String.valueOf(mngmntEmp.getProfile().getDateHired()) + " is not a valid date!");
                     }
                     break;
 
@@ -98,44 +121,41 @@ public class PayrollProcessing {
                     Employee removeEmp = new Employee(RProfile);
                     if (companyDB.remove(removeEmp)) {
                         System.out.println("Employee removed.");
-                    }
-                    else if (numEmployee == 0){
+                    } else if (numEmployee == 0) {
                         System.out.println("Employee database is empty.");
-                }
-                    else {
+                    } else {
                         System.out.println("Employee does not exist.");
                     }
                     break;
 
 
                 case "C": //handling commmand calculate
-                    if (numEmployee == 0){
-                    System.out.println("Employee database is empty.");
+                    numEmployee = companyDB.getNumEmployee();
+                    if (numEmployee == 0) {
+                        System.out.println("Employee database is empty.");
                     }
                     companyDB.processPayments();
+                    System.out.println("Calculation of employees is done.");
                     break;
 
                 case "S": //handling setHours command for part time employee
                     name = arrOfStr[1];
                     deptName = arrOfStr[2];
                     dateHiredStr = arrOfStr[3];
-                    float hours = Float.parseFloat(arrOfStr[4]);
+                    double hours = Double.parseDouble(arrOfStr[4]);
                     Profile setHrsProfile = new Profile(name, deptName, dateHiredStr);
-                    Parttime setHrsEmp = new Parttime(setHrsProfile, hours); //i want to pass in the double for hours and manipulate this into the setHours method
+                    Parttime setHrsEmp = new Parttime(setHrsProfile);
+                    numEmployee = companyDB.getNumEmployee();
 
-                    if (numEmployee == 0){
+                    if (numEmployee == 0) {
                         System.out.println("Employee database is empty.");
-                    }
-
-                    if (hours < 100) {
+                    } else if (hours < 0) {
                         System.out.println("Working hours cannot be negative.");
-                    }
-                    else if (hours > 100) {
+                    } else if (hours > 100) {
                         System.out.println("Invalid hours: over 100.");
-                    }
-                    else {
-                        if (companyDB.setHours(setHrsEmp)) {//so this part time employee has to be found first in the method, and then we have to
-                            //setHrsEmp.setHours(hours);
+                    } else {
+                        if (companyDB.setHours(setHrsEmp)) {
+                            setHrsEmp.setHours(hours);
                             System.out.println("Working hours set.");
                         }
                     }
