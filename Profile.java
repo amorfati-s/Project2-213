@@ -15,6 +15,8 @@ public class Profile {
         dateHired = new Date(date);
     }
 
+
+
     @Override
     public String toString() {
         return (name + "::" + department + "::" + String.valueOf(dateHired.getMonth()) + "/" + String.valueOf(dateHired.getDay()) + "/" + String.valueOf(dateHired.getYear()));
@@ -25,7 +27,9 @@ public class Profile {
     public boolean equals(Object obj){
         if(obj instanceof Profile){
             Profile profile = (Profile) obj;
-            return this.name.equals(profile.name);
+            if (this.name.equals(profile.name) && this.department.equals(profile.department) && this.dateHired.compareTo(profile.dateHired) == 0) {
+                return true;
+            }
         }
         return false;
     }
