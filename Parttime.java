@@ -2,8 +2,8 @@ import java.text.DecimalFormat;
 
 public class Parttime extends Employee {
 
-    protected float hoursWorked;
-    protected double hourlyPay;
+    private double hoursWorked;
+    private double hourlyPay;
     protected double payment;
 
     public Parttime(Profile profile, double hourlyPay) {
@@ -12,13 +12,11 @@ public class Parttime extends Employee {
         payment = 0;
     }
 
-    public Parttime(Profile profile, float hoursWorked) {
+    public Parttime(Profile profile){
         super(profile);
-        this.hoursWorked = hoursWorked;
-        //payment = 0;
     }
 
-    public void setHours(float hoursWorked) {
+    public void setHours(double hoursWorked) {
         this.hoursWorked = hoursWorked;
     }
 
@@ -43,7 +41,7 @@ public class Parttime extends Employee {
     public boolean equals(Object obj) {
         if (obj instanceof Parttime) {
             Parttime parttime = (Parttime) obj;
-            return parttime.getProfile().getName().equals(this.getProfile().getName());
+            return parttime.getProfile().equals(this.getProfile()); //used to be getprofile.getname
         }
         return false;
     }
@@ -52,15 +50,8 @@ public class Parttime extends Employee {
     public String toString() {
         String pattern = "###,000.00";
         DecimalFormat df = new DecimalFormat(pattern);
-        return super.toString() + "::Payment " + df.format(payment) + "::PART TIME:: Hourly Rate $" + df.format(hourlyPay) + "::Hours worked this period: " + hoursWorked;
+        return super.toString() + "::Payment " + df.format(payment) + "::PART TIME::Hourly Rate $" + df.format(hourlyPay) + "::Hours worked this period: " + hoursWorked;
     }
 
 }
 
-
-    /*public Parttime(int hourlyPay, String manager, String deptHead, String director) {
-        //super(manager,deptHead,director);
-        this.hourlyPay = hourlyPay;
-    }
-
-     */
