@@ -15,11 +15,9 @@ public class Profile {
         dateHired = new Date(date);
     }
 
-
-
     @Override
     public String toString() {
-        return (name + "::" + department + "::" + dateHired);
+        return (name + "::" + department + "::" + String.valueOf(dateHired.getMonth()) + "/" + String.valueOf(dateHired.getDay()) + "/" + String.valueOf(dateHired.getYear()));
     }
 
 
@@ -43,5 +41,9 @@ public class Profile {
     public Date getDateHired(){
         return this.dateHired;
     }
+
+
+
+
 
 }
