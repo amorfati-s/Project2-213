@@ -8,6 +8,7 @@ public class Fulltime extends Employee {
 
     public Fulltime(Profile profile, double annualSalary) {
         super(profile);
+
         this.annualSalary = annualSalary;
         payment = 0;
 
