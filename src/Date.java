@@ -1,12 +1,13 @@
 import java.util.Calendar;
 
 /**
- * This class defines the abstract data type Date which encapsulates the data fields and
- * methods of a Date.
+ * This class defines the abstract data type Date which encapsulates the data
+ * fields and methods of a Date.
  *
  * @author Siddhi Kasera, Sonal Madhok
  **/
-public class Date implements Comparable <Date> {
+public class Date implements Comparable<Date> {
+
     private int year;
     private int month;
     private int day;
@@ -27,7 +28,7 @@ public class Date implements Comparable <Date> {
      */
 
     public Date(String date) {
-        String[] arrOfDate = date.split("/"); //Split the string from date variable
+        String[] arrOfDate = date.split("/"); // Split the string from date variable
         String monthStr = arrOfDate[0];
         monthStr = monthStr.strip();
 
@@ -44,31 +45,46 @@ public class Date implements Comparable <Date> {
      * No Parameter Constructor creates an object with today's date.
      */
     public Date() {
-        Calendar today = Calendar.getInstance(); //gives instance of today's date
+        Calendar today = Calendar.getInstance(); // gives instance of today's date
 
         day = today.get(Calendar.DAY_OF_MONTH);
         month = today.get(Calendar.MONTH) + 1;
         year = today.get(Calendar.YEAR);
-
     }
 
+    /**
+     * Compare the elements of a date with another date object i.e year, month and
+     * day.
+     *
+     * @param date the other date.
+     * @return -1 if the current year, day or month are less than object date year,
+     *         month and day 1 if current year, day or month are greater than object
+     *         date year, day or month 0 if current year, day or month are equal to
+     *         the object date year, day or month
+     */
     @Override
     public int compareTo(Date date) {
-        if (year == date.year) {
-            if(month == date.month){
-                if(day == date.day){
-                    return 0;
-                }
-            }else if(day > date.day){
-                return 1;
-            }else if (day < date.day){
+        if (year < date.year) {
+            return -1;
+        } else if (year == date.year) {
+            if (month < date.month) {
                 return -1;
+            } else if (month == date.month) {
+                if (day < date.day) {
+                    return -1;
+                } else if (day == date.day) {
+                    return 0;
+                } else if (day > date.day) {
+                    return 1;
+                }
+            } else if (month > date.month) {
+                return 1;
             }
-
+        } else if (year > date.year) {
+            return 1;
         }
-        return -1;
+        return 0;
     }
-
 
     /**
      * getter method returns the day instance variable
@@ -100,7 +116,8 @@ public class Date implements Comparable <Date> {
     /**
      * Checks if the date entered is valid.
      *
-     * @return true if the date is valid with the correct day in a particular month for a year otherwise false
+     * @return true if the date is valid with the correct day in a particular month
+     *         for a year otherwise false
      */
     public boolean isValid() {
         boolean leap = false;
@@ -109,9 +126,9 @@ public class Date implements Comparable <Date> {
         }
 
         Date futureDate = new Date();
-        int newDay = futureDate.getDay(); //9
-        int newMonth = futureDate.getMonth(); //2
-        int newYear = futureDate.getYear(); //2021
+        int newDay = futureDate.getDay(); // 9
+        int newMonth = futureDate.getMonth(); // 2
+        int newYear = futureDate.getYear(); // 2021
         if (year == newYear) {
             if (month >= newMonth) {
                 return false;
@@ -121,7 +138,7 @@ public class Date implements Comparable <Date> {
             }
         }
 
-        //checking is a year is leap year.
+        // checking is a year is leap year.
         if (year % QUADRENNIAL == 0) {
             if (year % CENTENNIAL == 0) {
                 if (year % QUATERCENTENNIAL == 0) {
@@ -136,7 +153,7 @@ public class Date implements Comparable <Date> {
             leap = false;
         }
 
-        //to check if day number is correct for a given month.
+        // to check if day number is correct for a given month.
         switch (month) {
 
             case Calendar.JANUARY + 1:
@@ -217,72 +234,4 @@ public class Date implements Comparable <Date> {
         }
         return true;
     }
-
-}
-
-/**
- * Main test bed to check the validity of a date entered by using isValid() method.
- */
-class MainTest {
-    public static void main(String[] args) {
-        /********** FUTURE DATE TESTING  **********/
-        System.out.println("Future Date Testing for 03/20/2021");
-        Date futureDate = new Date("03/20/2021");
-        System.out.println("isValid() returns: " + futureDate.isValid());
-        System.out.println("Expected result: false" + "\n");
-
-        System.out.println("Future Date Testing for 03/20/2023");
-        Date futureDate1 = new Date("03/20/2023");
-        System.out.println("isValid() returns: " + futureDate.isValid());
-        System.out.println("Expected result: false" + "\n");
-
-
-        System.out.println("Testing for 13/1/2018");
-        Date test1 = new Date("13/1/2018");
-        System.out.println("isValid() returns:" + test1.isValid());
-        System.out.println("Expected result: false" + "\n");
-
-        System.out.println("Testing for 12/2/2019");
-        Date test2 = new Date("12/2/2019");
-        System.out.println("isValid() returns:" + test2.isValid());
-        System.out.println("Expected result: true" + "\n");
-
-        System.out.println("Testing for 02/29/2004");
-        Date test3 = new Date("02/29/2004");
-        System.out.println("isValid() returns:" + test3.isValid());
-        System.out.println("Expected result: true" + "\n");
-
-        System.out.println("Testing for 02/30/2004");
-        Date test4 = new Date("02/30/2004");
-        System.out.println("isValid() returns:" + test4.isValid());
-        System.out.println("Expected result: false" + "\n");
-
-        System.out.println("Testing for 12/32/2014");
-        Date test5 = new Date("12/32/2014");
-        System.out.println("isValid() returns:" + test5.isValid());
-        System.out.println("Expected result: false" + "\n");
-
-        System.out.println("Testing for 12/01/1899");
-        Date test6 = new Date("12/01/1899");
-        System.out.println("isValid() returns:" + test6.isValid());
-        System.out.println("Expected result: false" + "\n");
-
-        System.out.println("Testing for 2/32/2018");
-        Date test7 = new Date("2/32/2018");
-        System.out.println("isValid() returns:" + test7.isValid());
-        System.out.println("Expected result: false" + "\n");
-
-        System.out.println("Testing for 02/00/2018");
-        Date test8 = new Date("02/00/2018");
-        System.out.println("isValid() returns:" + test8.isValid());
-        System.out.println("Expected result: false" + "\n");
-
-        System.out.println("Testing for 02/01/2018");
-        Date dayTest3 = new Date("02/01/2018");
-        System.out.println("isValid() returns:" + dayTest3.isValid());
-        System.out.println("Expected result: true" + "\n");
-
-
-    }
-
 }
