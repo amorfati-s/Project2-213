@@ -45,24 +45,32 @@ public class Date implements Comparable<Date> {
         day = today.get(Calendar.DAY_OF_MONTH);
         month = today.get(Calendar.MONTH) + 1;
         year = today.get(Calendar.YEAR);
-
     }
 
     @Override
     public int compareTo(Date date) {
-        if (year == date.year) {
-            if(month == date.month){
-                if(day == date.day){
-                    return 0;
-                }
-            }else if(day > date.day){
-                return 1;
-            }else if (day < date.day){
-                return -1;
-            }
-
+        if(year < date.year){
+            return -1;
         }
-        return -1;
+        else if (year == date.year) {
+            if (month < date.month) {
+                return -1;
+            } else if (month == date.month) {
+                if (day < date.day) {
+                    return -1;
+                } else if (day == date.day) {
+                    return 0;
+                } else if (day > date.day) {
+                    return 1;
+                }
+            } else if (month > date.month) {
+                return 1;
+            }
+        }
+        else if (year > date.year) {
+            return 1;
+        }
+        return 0;
     }
 
 
