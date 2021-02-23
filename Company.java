@@ -6,7 +6,6 @@ public class Company {
     private static final int NOT_FOUND = -1;
     private int empExists;
 
-
     private int find(Employee employee) {
         int flag = 0;
         for (int i = 0; i < numEmployee; i++) {
@@ -34,7 +33,6 @@ public class Company {
         empExists = find(employee);
         if (empExists == 1) {
             return false;
-            //system print that the employee exits already and we cannot add another
         }
         if ((numEmployee + 1) <= emplist.length) {
             emplist[numEmployee] = employee;
@@ -79,31 +77,17 @@ public class Company {
     } //maintain the original sequence
 
     public boolean setHours(Employee employee) {
-        //insert find method
-        //if profile is found, we have a separate variable called hours that should be accessed by parttime and company? it is different from hourlyPay
-        if (numEmployee == 0) {
-            //system print employee database is empty
-            return false;
-        }
-        if (employee instanceof Parttime) {
-            empExists = findIndex(employee); //1 = true
-            if (empExists >= 0) {//exists
 
-                //emplist[empExists]
-
-                return true;
-            }
-            return false;
+        empExists = findIndex(employee);
+        if (empExists >= 0) {
+            ((Parttime) emplist[empExists]).setHours(((Parttime) employee).getHours());
+            return true;
         }
         return false;
     } //set working hours for a part time
 
     public void processPayments() {
         //not sure how to bring calculatePayment() into here but that's what we need to do I think.
-        if (numEmployee == 0) {
-            //print out that the database is empty
-        }
-
         if (numEmployee > 0) {
             for (int i = 0; i < numEmployee; i++) {
                 if (emplist[i] instanceof Fulltime) {
@@ -158,13 +142,6 @@ public class Company {
 
     public void printByDepartment() {
 
-        //maybe create a compareTo for the string departments
-        /*Employee[] CSDept = new Employee[CAPACITY];
-        Employee[] ECEDept = new Employee[CAPACITY];
-        Employee[] ITDept = new Employee[CAPACITY];
-
-         */
-
         String[] arrayOfDept = new String[numEmployee];
         int j = 0;
 
@@ -187,30 +164,6 @@ public class Company {
                 }
                 }
             }
-
-            /*
-            for (int i = 0; i < numEmployee; i++) {
-
-                if (empListCopy[i].getProfile().getDepartment().equals("CS")) {
-
-                    if ((numEmployee + 1) <= empListCopy.length) {
-                        //empListCopy[numEmployee] = employee;
-                        CSDept[i] = empListCopy[i];
-                    } else {
-                        this.grow();
-                        CSDept[i] = empListCopy[i];
-                    }
-                    numEmployee++;
-                    }
-                else if (empListCopy[i].getProfile().getDepartment().equals("ECE")) {
-                        ECEDept[i] = empListCopy[i];
-                    }
-                else if (empListCopy[i].getProfile().getDepartment().equals("CS")) {
-                        ITDept[i] = empListCopy[i];
-                    }
-                }
-
-             */
 
             }
             System.out.println("--End of list.");
