@@ -30,8 +30,8 @@ public class Fulltime extends Employee {
 
     @Override
     public String toString() {
-        String pattern = "###,000.00";
+        String pattern = "###,##0.00";
         DecimalFormat df = new DecimalFormat(pattern);
-        return String.format(super.toString() + "::Payment " + df.format(payment) + "::FULL TIME::Annual Salary $" + df.format(annualSalary));
+        return String.format(super.toString() + "::Payment $" + df.format(payment) + "::FULL TIME::Annual Salary $" + df.format(annualSalary));
     }
 }
