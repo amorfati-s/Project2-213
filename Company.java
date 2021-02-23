@@ -31,7 +31,6 @@ public class Company {
 
     public boolean add(Employee employee) {
 
-
         empExists = find(employee);
         if (empExists == 1) {
             return false;
@@ -58,11 +57,16 @@ public class Company {
         return NOT_FOUND;
     }
 
+    public int getNumEmployee() {
+        return numEmployee;
+    }
+
     public boolean remove(Employee employee) {
 
         //find the profile if it exists and then remove it
         empExists = find(employee);
         int index = 0;
+
         if (empExists == 1) {
             index = findIndex(employee);
             for (int i = index; i < emplist.length - 1; i++) {
@@ -85,7 +89,7 @@ public class Company {
             empExists = findIndex(employee); //1 = true
             if (empExists >= 0) {//exists
 
-                //the set hours from payroll works but the object loses its value of hourly rate which isn't good
+                //emplist[empExists]
 
                 return true;
             }
@@ -133,11 +137,36 @@ public class Company {
         }
     } //print earning statements for all employees
 
+
+    public void sortDept(Employee[] empListCopy) {
+
+        for (int i = 0; i < numEmployee - 1; i++) {
+            int index = i;
+            for (int j = i + 1; j < numEmployee; j++) {
+                if (empListCopy[i + 1] == null) {
+                    break;
+                }
+                if (empListCopy[j].getProfile().getDepartment() == "CS") {
+                    index = j;
+                }
+            }
+            Employee orderedEmp = empListCopy[index];
+            empListCopy[index] = empListCopy[i];
+            empListCopy[i] = orderedEmp;
+        }
+
+
+    }
+
+
     public void printByDepartment() {
 
-        Employee[] CSDept = new Employee[CAPACITY];
+        //maybe create a compareTo for the string departments
+        /*Employee[] CSDept = new Employee[CAPACITY];
         Employee[] ECEDept = new Employee[CAPACITY];
         Employee[] ITDept = new Employee[CAPACITY];
+
+         */
 
         Employee[] empListCopy = new Employee[numEmployee];
 
@@ -151,7 +180,11 @@ public class Company {
                 empListCopy[i] = emplist[i];
             }
 
+            sortDept(empListCopy);
+
+            /*
             for (int i = 0; i < numEmployee; i++) {
+
                 if (empListCopy[i].getProfile().getDepartment().equals("CS")) {
 
                     if ((numEmployee + 1) <= empListCopy.length) {
@@ -171,17 +204,24 @@ public class Company {
                     }
                 }
 
+                 */
+
             }
 
             for (int j = 0; j < numEmployee; j++) {
-                System.out.println(CSDept[j]);
+
+                System.out.println(empListCopy[j]);
+
+                /*System.out.println(CSDept[j]);
                 System.out.println(ECEDept[j]);
                 System.out.println(ITDept[j]);
+
+                 */
             }
             System.out.println("--End of list.");
 
         }
-    }//print earning statements by department
+    //print earning statements by department
 
         public void printByDate () {
 
