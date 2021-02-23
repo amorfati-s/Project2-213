@@ -23,6 +23,7 @@ public class PayrollProcessing {
     private final String ECE_DEPT = "ECE";
     private final String IT_DEPT = "IT";
     private final int DEF_VAL = 0;
+    private int numEmployee = companyDB.getNumEmployee();
     Employee employee = new Employee();
     Date date = new Date();
 
@@ -83,7 +84,8 @@ public class PayrollProcessing {
                     if (AMProfile.getDateHired().isValid()) {
                         companyDB.add(mngmntEmp);
                         System.out.println("Employee added.");
-                    } else {
+                    }
+                    else {
                         System.out.println(mngmntEmp.getProfile().getDateHired() + " is not a valid date!");
                     }
                     break;
@@ -96,13 +98,20 @@ public class PayrollProcessing {
                     Employee removeEmp = new Employee(RProfile);
                     if (companyDB.remove(removeEmp)) {
                         System.out.println("Employee removed.");
-                    } else {
+                    }
+                    else if (numEmployee == 0){
+                        System.out.println("Employee database is empty.");
+                }
+                    else {
                         System.out.println("Employee does not exist.");
                     }
                     break;
 
 
                 case "C": //handling commmand calculate
+                    if (numEmployee == 0){
+                    System.out.println("Employee database is empty.");
+                    }
                     companyDB.processPayments();
                     break;
 
@@ -114,6 +123,10 @@ public class PayrollProcessing {
                     Profile setHrsProfile = new Profile(name, deptName, dateHiredStr);
                     Parttime setHrsEmp = new Parttime(setHrsProfile, hours); //i want to pass in the double for hours and manipulate this into the setHours method
 
+                    if (numEmployee == 0){
+                        System.out.println("Employee database is empty.");
+                    }
+
                     if (hours < 100) {
                         System.out.println("Working hours cannot be negative.");
                     }
@@ -122,7 +135,7 @@ public class PayrollProcessing {
                     }
                     else {
                         if (companyDB.setHours(setHrsEmp)) {//so this part time employee has to be found first in the method, and then we have to
-                            setHrsEmp.setHours(hours);
+                            //setHrsEmp.setHours(hours);
                             System.out.println("Working hours set.");
                         }
                     }
@@ -147,7 +160,7 @@ public class PayrollProcessing {
                     break;
 
                 default:
-                    System.out.println("Command " + "'" + line + "'" + "is not supported!");
+                    System.out.println("Command " + "'" + line + "'" + " is not supported!");
                     break;
             }
         }
